@@ -1,7 +1,7 @@
 // set global variables
 var citiesListArr = [];
 var numOfCities = 9;
-var personalAPIKey = "appid=264dbcaa3899de05eeadc78d68ba06dc";
+var personalAPIKey = "appid=8d27d3e5298217240e160a88d8accd8c";
 var unit = "units=imperial";
 var dailyWeatherApiStarts =
   "https://api.openweathermap.org/data/2.5/weather?q=";
@@ -11,7 +11,7 @@ var forecastWeatherApiStarts =
 // select from html element
 var searchCityForm = $("#searchCityForm");
 var searchedCities = $("#searchedCityLi");
-//-------------------------- get weather info from OpenWeather starts here ------------------------------//
+
 var getCityWeather = function (searchCityName) {
   // formate the OpenWeather api url
   var apiUrl =
@@ -111,8 +111,7 @@ var getForecast = function (lat, lon) {
       }
     });
 };
-//-------------------------- get weather info from OpenWeather ends here ------------------------------//
-//-------------------------------------- create button starts  ----------------------------------------//
+
 var creatBtn = function (btnText) {
   var btn = $("<button>")
     .text(btnText)
@@ -120,8 +119,7 @@ var creatBtn = function (btnText) {
     .attr("type", "submit");
   return btn;
 };
-//-------------------------------------- create button ends  ------------------------------------------//
-//---------------------- load saved citeis names from localStorage starts here ------------------------//
+
 var loadSavedCity = function () {
   citiesListArr = JSON.parse(localStorage.getItem("weatherInfo"));
   if (citiesListArr == null) {
@@ -132,8 +130,7 @@ var loadSavedCity = function () {
     searchedCities.append(cityNameBtn);
   }
 };
-//---------------------- load saved citeis names from localStorage ends here ------------------------//
-//----------------------- save searched city in to local storage starts here --------------------------//
+
 var saveCityName = function (searchCityName) {
   var newcity = 0;
   citiesListArr = JSON.parse(localStorage.getItem("weatherInfo"));
@@ -159,8 +156,7 @@ var saveCityName = function (searchCityName) {
   newcity = 1;
   return newcity;
 };
-//------------------------ save searched city in to local storage ends here ---------------------------//
-//-------------------------- create button with searched city starts here -----------------------------//
+
 var createCityNameBtn = function (searchCityName) {
   var saveCities = JSON.parse(localStorage.getItem("weatherInfo"));
   // check the searchCityName parameter against all children of citiesListArr
@@ -173,7 +169,6 @@ var createCityNameBtn = function (searchCityName) {
         return;
       }
     }
-    // check whether there are already have too many elements in this list of button
     if (searchedCities[0].childElementCount < numOfCities) {
       var cityNameBtn = creatBtn(searchCityName);
     } else {
@@ -187,10 +182,8 @@ var createCityNameBtn = function (searchCityName) {
   }
 };
 
-//------------------------------------- call functions directly ---------------------------------------//
 loadSavedCity();
-//-------------------------- create button with searched city ends here -------------------------------//
-//--------------------------- event handler from submit form starts here ------------------------------//
+
 var formSubmitHandler = function (event) {
   event.preventDefault();
   // name of the city
@@ -207,12 +200,10 @@ var BtnClickHandler = function (event) {
   var searchCityName = event.target.textContent.trim();
   getCityWeather(searchCityName);
 };
-//--------------------------- event handler from submit form ends here ------------------------------//
-//------------------------ call functions with submit button starts here ----------------------------//
+
 $("#searchCityForm").on("submit", function () {
   formSubmitHandler(event);
 });
 $(":button.list-group-item-action").on("click", function () {
   BtnClickHandler(event);
 });
-//-------------------------- call functions with submit button ends here ----------------------------//
