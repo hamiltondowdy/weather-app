@@ -13,7 +13,6 @@ var searchCityForm = $("#searchCityForm");
 var searchedCities = $("#searchedCityLi");
 
 var getCityWeather = function (searchCityName) {
-  // formate the OpenWeather api url
   var apiUrl =
     dailyWeatherApiStarts + searchCityName + "&" + personalAPIKey + "&" + unit;
   // make a request to url
@@ -25,7 +24,6 @@ var getCityWeather = function (searchCityName) {
         var unixTime = response.dt;
         var date = moment.unix(unixTime).format("MM/DD/YY");
         $("#currentdate").html(date);
-        // display weather icon
         var weatherIncoUrl =
           "http://openweathermap.org/img/wn/" +
           response.weather[0].icon +
