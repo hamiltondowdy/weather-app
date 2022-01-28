@@ -1,25 +1,47 @@
-const cityHistory = [];
-const apiKey = "8d27d3e5298217240e160a88d8accd8c";
-const resultElement = document.getElementById("result");
-const weatherForecast = document.getElementById("weather-forecast");
-const cityForm = document.getElementById("city-form");
-const cityInput = document.getElementById("city-name");
-const searchBtn = document.getElementById("searchBtn");
-const historyContainer = document.getElementById("city-history");
+var cityHistory = [];
+var apiKey = "8d27d3e5298217240e160a88d8accd8c";
+var resultElement = document.getElementById("result");
+var weatherForecast = document.getElementById("weather-forecast");
+var cityForm = document.getElementById("city-form");
+var cityInput = document.getElementById("city-name");
+var searchBtn = document.getElementById("searchBtn");
+var historyContainer = document.getElementById("city-history");
 
 
-const getCity = function(event){ 
+var nameEl =document.createElement("a")
+
+nameEl.setAttribute("class","city-name");
+nameEl.setAttribute("href", "./second-page.html");
+
+var iconEl =document.createElement("img");
+// assign an SRC attribute to hold the icon URL
+iconEl.setAttribute("src","");
+var tempEl= document.createElement("p");
+var humidityEl= document.createElement("p");
+var windEl= document.createElement("p");
+var descEl= document.createElement("p");
+// appending the dynamically created element
+resultElement.append(nameEl,iconEl,tempEl,humidityEl,windEl,descEl);
+
+function appendToHistory(city) {
+    // If there is no search term return the function
+    if (cityHistory.indexOf(city) !== -1) {
+    return;
+  }
+  cityHistory.push(city);
+
+ localStorage.setItem('search-history',JSON.stringify(cityHistory));
+}
+
+
+var getCity = function(event){ 
     event.preventDefault();
-    var cityName = cityInputEl.value.trim();
+    var cityName = cityInput.value.trim();
     if(cityName){
-        //run the get weather function 
         getWeatherInfo(cityName);
-        //clear the input filed 
-        cityInputEl.value="";
-        // if there is no input for the user 
+        //cityInput.value="";
     }else{
-        // alert the user to enster a valid city 
-        swal("Error City not Found",{
+        throw("Error City not Found",{
             buttons: {
                 cancel:true,
                 confirm:false,
@@ -28,7 +50,7 @@ const getCity = function(event){
     }
 }
 
-const getWeatherInfo = function (city) {
+var getWeatherInfo = function (city) {
     const apiUrl = 
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     city +
@@ -42,7 +64,7 @@ const getWeatherInfo = function (city) {
           getWeather(data, city);
         });
       } else {
-        swal("Error City not found",{
+        throw("Error City not found",{
             buttons: {
                 cancel:true,
                 confirm:false,
@@ -51,7 +73,7 @@ const getWeatherInfo = function (city) {
       }
     })
     .catch(function (error) {
-        swal("error City not found",{
+        throw("error City not found",{
           buttons: {
               cancel:true,
               confirm:false,
@@ -59,3 +81,15 @@ const getWeatherInfo = function (city) {
        })
       });
   };
+
+var getWeather = function(data) {
+    var {name} = data;
+    var {icon,description}= data.weather[0];
+    var {temp,humidity}= data.main;
+    console.log (name,icon,temp,humidity,description);
+    nameEl.innerText = "Temp: "+ temp + "F";
+    iconEl.src = "http://openweathermap.org/img/wn/" + icon + "@2x.png"
+    humidityEl.innerText = "Humidity: "+ humidity;
+    descEl.innerText = description;
+
+}
