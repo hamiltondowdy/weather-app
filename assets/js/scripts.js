@@ -44,7 +44,6 @@ var getCityWeather = function (searchCityName) {
   });
 };
 var getUVIndex = function (lat, lon) {
-  // formate the OpenWeather api url
   var apiUrl =
     dailyUVIndexApiStarts +
     personalAPIKey +
@@ -100,7 +99,7 @@ var getForecast = function (lat, lon) {
           response.daily[i].weather[0].icon +
           "@2x.png";
         $("#weatherIconDay" + i).attr("src", weatherIncoUrl);
-        // display temperature
+        // display temp
         var temp = response.daily[i].temp.day + " \u00B0F";
         $("#tempDay" + i).html(temp);
         // display humidity
